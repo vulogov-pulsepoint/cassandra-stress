@@ -1,6 +1,6 @@
 keyspace: users_stress_test
 keyspace_definition: | 
-	create keyspace if not exists users_stress_test with replication = {'class' : 'SimpleStrategy', 'replication_factor' : 3};
+	create keyspace if not exists users_stress_test with replication = {'class' : 'NetworkTopologyStrategy', 'replication_factor' : 3};
 table: users
 table_definition: |
 	CREATE TABLE if not exists users.user ( 
