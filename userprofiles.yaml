@@ -1,0 +1,35 @@
+keyspace: users_stress_test
+keyspace_definition: | 
+	create keyspace if not exists users_stress_test with replication = {'class' : 'SimpleStrategy', 'replication_factor' : 3};
+table: users
+table_definition: |
+	CREATE TABLE if not exists users.user ( 
+                                id ascii, 
+                                usergraph_ids set<ascii>,
+                                segments set<ascii>,
+                                cookies ascii,
+                                PRIMARY KEY (id)
+                            ) WITH bloom_filter_fp_chance = 0.01
+                                AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+                                AND comment = ''
+                                AND compaction = {'class': 'LeveledCompactionStrategy', 'enabled': 'true' }
+                                AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+                                AND crc_check_chance = 0.1
+                                AND dclocal_read_repair_chance = 0.01
+                                AND default_time_to_live = 0
+                                AND gc_grace_seconds = 864000
+                                AND max_index_interval = 2048
+                                AND memtable_flush_period_in_ms = 0
+                                AND min_index_interval = 128
+                                AND read_repair_chance = 0.01
+                                AND speculative_retry = '99PERCENTILE'
+columnspec:
+	- name: id
+	  size: uniform(5..10)
+	- name: cookies
+	  size: gaussian(64..128)
+	- name: segments
+   	  size: uniform(5..10)
+	- name: usergraph_ids
+	  size: uniform(5..10)
+
